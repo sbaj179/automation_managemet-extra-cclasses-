@@ -3,7 +3,7 @@ import { assignSubjects, createStudent, importStudentsCsv } from "@/app/(authed)
 import { getCurrentUserProfile } from "@/lib/data";
 
 export default async function StudentsPage() {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const { profile } = await getCurrentUserProfile(supabase);
 
   if (profile?.role === "tutor") {

@@ -5,7 +5,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { getCurrentUserProfile } from "@/lib/data";
 
 export async function createSubject(formData: FormData) {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const { profile } = await getCurrentUserProfile(supabase);
 
   if (!profile) {

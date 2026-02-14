@@ -11,7 +11,7 @@ export default async function MessagesPage({
 }: {
   searchParams: { status?: string };
 }) {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const { profile } = await getCurrentUserProfile(supabase);
 
   if (profile?.role === "tutor") {

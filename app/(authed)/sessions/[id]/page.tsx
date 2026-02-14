@@ -2,7 +2,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { saveAttendance } from "@/app/(authed)/sessions/[id]/actions";
 
 export default async function SessionDetailPage({ params }: { params: { id: string } }) {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const { id } = params;
 
   const { data: session } = await supabase

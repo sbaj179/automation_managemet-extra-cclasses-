@@ -5,7 +5,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { getCurrentUserProfile } from "@/lib/data";
 
 export async function createStudent(formData: FormData) {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const { profile } = await getCurrentUserProfile(supabase);
 
   if (!profile) {
@@ -34,7 +34,7 @@ export async function createStudent(formData: FormData) {
 }
 
 export async function assignSubjects(formData: FormData) {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const { profile } = await getCurrentUserProfile(supabase);
 
   if (!profile) {
@@ -76,7 +76,7 @@ export async function assignSubjects(formData: FormData) {
 }
 
 export async function importStudentsCsv(formData: FormData) {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const { profile } = await getCurrentUserProfile(supabase);
 
   if (!profile) {

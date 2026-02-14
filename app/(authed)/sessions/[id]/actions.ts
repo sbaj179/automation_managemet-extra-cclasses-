@@ -24,7 +24,7 @@ function resolveSendAfter(now: Date) {
 }
 
 export async function saveAttendance(formData: FormData) {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const { profile } = await getCurrentUserProfile(supabase);
 
   if (!profile) {
