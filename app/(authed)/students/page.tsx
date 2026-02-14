@@ -1,9 +1,9 @@
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 import { assignSubjects, createStudent, importStudentsCsv } from "@/app/(authed)/students/actions";
 import { getCurrentUserProfile } from "@/lib/data";
 
 export default async function StudentsPage() {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createClient();
   const { profile } = await getCurrentUserProfile(supabase);
 
   if (profile?.role === "tutor") {
@@ -128,3 +128,5 @@ export default async function StudentsPage() {
     </div>
   );
 }
+
+

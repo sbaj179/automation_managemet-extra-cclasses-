@@ -1,11 +1,11 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 import { getCurrentUserProfile } from "@/lib/data";
 
 export async function createSession(formData: FormData) {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createClient();
   const { profile } = await getCurrentUserProfile(supabase);
 
   if (!profile) {
@@ -58,3 +58,5 @@ export async function createSession(formData: FormData) {
   revalidatePath("/sessions");
   return { error: "" };
 }
+
+

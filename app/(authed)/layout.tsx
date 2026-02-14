@@ -1,14 +1,23 @@
 import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
 import NavBar from "@/components/NavBar";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 import { getCurrentUserProfile } from "@/lib/data";
 
+export const dynamic = "force-dynamic";
+
 export default async function AuthedLayout({ children }: { children: ReactNode }) {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createClient();
+
   const {
-    data: { session }
+    data: { session },
+    error: sessionError,
   } = await supabase.auth.getSession();
+
+  if (sessionError) {
+    // If Supabase returns an error, treat it as unauthenticated for safety.
+    redirect("/login");
+  }
 
   if (!session) {
     redirect("/login");

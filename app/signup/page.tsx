@@ -1,6 +1,6 @@
-import LoginForm from "@/app/login/LoginForm";
+import SignupForm from "./signupForm";
 
-export default function LoginPage() {
+export default function SignupPage() {
   return (
     <main
       style={{
@@ -13,8 +13,7 @@ export default function LoginPage() {
         color: "#fff",
       }}
     >
-      <LoginForm />
+      <SignupForm />
     </main>
   );
 }
-

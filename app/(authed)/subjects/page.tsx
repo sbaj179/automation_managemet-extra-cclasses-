@@ -1,9 +1,9 @@
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 import { createSubject } from "@/app/(authed)/subjects/actions";
 import { getCurrentUserProfile } from "@/lib/data";
 
 export default async function SubjectsPage() {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createClient();
   const { profile } = await getCurrentUserProfile(supabase);
 
   if (profile?.role === "tutor") {
@@ -67,3 +67,5 @@ export default async function SubjectsPage() {
     </div>
   );
 }
+
+

@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 import { createSession } from "@/app/(authed)/sessions/actions";
 import { getCurrentUserProfile } from "@/lib/data";
 
 export default async function SessionsPage() {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createClient();
   const { profile } = await getCurrentUserProfile(supabase);
 
   const sessionsQuery = supabase
@@ -125,3 +125,5 @@ export default async function SessionsPage() {
     </div>
   );
 }
+
+
