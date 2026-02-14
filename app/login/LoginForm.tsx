@@ -1,15 +1,13 @@
 "use client";
 
-import { useFormState } from "react-dom";
-import { signIn } from "@/app/login/actions";
+type LoginFormProps = {
+  error?: string;
+};
 
-const initialState = { error: "" };
-
-export default function LoginForm() {
-  const [state, formAction] = useFormState(signIn, initialState);
+export default function LoginForm({ error }: LoginFormProps) {
 
   return (
-    <form action={formAction} className="card" style={{ maxWidth: 420 }}>
+    <form action="/auth/sign-in" method="post" className="card" style={{ maxWidth: 420 }}>
       <h1 style={{ marginTop: 0 }}>Admin & Tutor Login</h1>
       <div className="form-row">
         <label className="label" htmlFor="email">
@@ -29,7 +27,7 @@ export default function LoginForm() {
           required
         />
       </div>
-      {state.error ? <p className="notice">{state.error}</p> : null}
+      {error ? <p className="notice">{error}</p> : null}
       <button className="button" type="submit">
         Sign in
       </button>

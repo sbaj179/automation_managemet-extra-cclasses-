@@ -4,8 +4,10 @@ import NavBar from "@/components/NavBar";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { getCurrentUserProfile } from "@/lib/data";
 
+export const dynamic = "force-dynamic";
+
 export default async function AuthedLayout({ children }: { children: ReactNode }) {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const {
     data: { session }
   } = await supabase.auth.getSession();

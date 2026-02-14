@@ -4,7 +4,7 @@ import { createSession } from "@/app/(authed)/sessions/actions";
 import { getCurrentUserProfile } from "@/lib/data";
 
 export default async function SessionsPage() {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const { profile } = await getCurrentUserProfile(supabase);
 
   const sessionsQuery = supabase
