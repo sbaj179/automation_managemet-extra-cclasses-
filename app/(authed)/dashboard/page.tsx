@@ -1,44 +1,63 @@
 import Link from "next/link";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { createServerSupabase } from "@/lib/supabase/server";
 import { getCurrentUserProfile } from "@/lib/data";
 
+export const dynamic = "force-dynamic";
+
+type UpcomingSessionRow = {
+  id: string;
+  starts_at: string;
+  location: string | null;
+  subjects: { name: string }[] | null; // nested relation comes back as array
+};
+
 export default async function DashboardPage() {
-  const supabase = await createSupabaseServerClient();
+  const supabase = await createServerSupabase();
+
   const { profile } = await getCurrentUserProfile(supabase);
 
-  const { data: sessions } = await supabase
+  const { data } = await supabase
     .from("sessions")
-    .select("id, starts_at, location, subject:subjects(name)")
+    .select("id, starts_at, location, subjects(name)")
     .order("starts_at", { ascending: true })
     .limit(5);
+
+  const sessions = (data ?? []) as unknown as UpcomingSessionRow[];
 
   return (
     <div className="grid" style={{ gap: 24 }}>
       <section className="card">
-        <h1 style={{ marginTop: 0 }}>Welcome back{profile?.full_name ? `, ${profile.full_name}` : ""}</h1>
+        <h1 style={{ marginTop: 0 }}>
+          Welcome back{profile?.full_name ? `, ${profile.full_name}` : ""}
+        </h1>
         <p className="muted">
           Use the quick links below to manage students, subjects, sessions, and WhatsApp-ready
           updates.
         </p>
+
         <div className="grid grid-2">
           <Link className="card" href="/students">
             <strong>Students</strong>
             <p className="muted">Manage profiles and subject assignments.</p>
           </Link>
+
           <Link className="card" href="/subjects">
             <strong>Subjects</strong>
             <p className="muted">Create and update subject offerings.</p>
           </Link>
+
           <Link className="card" href="/sessions">
             <strong>Sessions</strong>
             <p className="muted">Schedule classes and track attendance.</p>
           </Link>
+
           <Link className="card" href="/messages">
             <strong>Messages</strong>
             <p className="muted">Review and send queued parent updates.</p>
           </Link>
         </div>
       </section>
+
       <section className="card">
         <div className="flex justify-between">
           <h2 className="section-title">Upcoming sessions</h2>
@@ -46,7 +65,8 @@ export default async function DashboardPage() {
             View all
           </Link>
         </div>
-        {sessions && sessions.length > 0 ? (
+
+        {sessions.length > 0 ? (
           <table className="table">
             <thead>
               <tr>
@@ -56,11 +76,11 @@ export default async function DashboardPage() {
               </tr>
             </thead>
             <tbody>
-              {sessions.map((session) => (
-                <tr key={session.id}>
-                  <td>{session.subject?.name ?? ""}</td>
-                  <td>{new Date(session.starts_at).toLocaleString()}</td>
-                  <td>{session.location ?? "-"}</td>
+              {sessions.map((s) => (
+                <tr key={s.id}>
+                  <td>{s.subjects?.[0]?.name ?? ""}</td>
+                  <td>{new Date(s.starts_at).toLocaleString()}</td>
+                  <td>{s.location ?? "-"}</td>
                 </tr>
               ))}
             </tbody>
@@ -72,3 +92,4 @@ export default async function DashboardPage() {
     </div>
   );
 }
+

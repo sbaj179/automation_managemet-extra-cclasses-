@@ -1,11 +1,11 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { createServerSupabase } from "@/lib/supabase/server";
 
 export async function markMessageSent(formData: FormData) {
   const messageId = String(formData.get("message_id") ?? "");
-  const supabase = await createSupabaseServerClient();
+  const supabase = await await createServerSupabase();
 
   const { error } = await supabase
     .from("message_queue")

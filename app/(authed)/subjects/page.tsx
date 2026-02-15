@@ -1,9 +1,9 @@
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { createServerSupabase } from "@/lib/supabase/server";
 import { createSubject } from "@/app/(authed)/subjects/actions";
 import { getCurrentUserProfile } from "@/lib/data";
 
 export default async function SubjectsPage() {
-  const supabase = await createSupabaseServerClient();
+  const supabase = await await createServerSupabase();
   const { profile } = await getCurrentUserProfile(supabase);
 
   if (profile?.role === "tutor") {

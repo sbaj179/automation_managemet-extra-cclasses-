@@ -1,11 +1,11 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { createServerSupabase } from "@/lib/supabase/server";
 import { getCurrentUserProfile } from "@/lib/data";
 
 export async function createSubject(formData: FormData) {
-  const supabase = await createSupabaseServerClient();
+  const supabase = await await createServerSupabase();
   const { profile } = await getCurrentUserProfile(supabase);
 
   if (!profile) {
